@@ -132,11 +132,11 @@ Dataset Description
 =====================================
 Row
 -------------------------------------
-The dataset comes from the Kaggle dataset Used Car Dataset: Ford and Mercedes, which includes a BMW file (bmw.csv).  
-This dashboard uses the BMW subset only, with each row representing one used BMW listing.  
-The data were collected from used-car listings and compiled into a structured CSV dataset for analysis.  
-The study population is BMW vehicles in the used car market, and the sample size is the number of rows in bmw.csv.  
-Source: https://www.kaggle.com/datasets/adityadesai13/used-car-dataset-ford-and-mercedes
+The dataset comes from the Kaggle dataset *100,000 UK Used Car Data set*, and this dashboard analyzes the BMW subset (`bmw.csv`).  
+Each observation represents one used BMW listing, with variables such as model, year, price, mileage, fuel type, transmission, MPG, and engine size.  
+The data were collected from UK used-car listings and organized into a structured CSV file for analysis.  
+The study population is used BMW vehicles listed in the UK market, and the sample size is the number of records in `bmw.csv`.  
+Source: <https://www.kaggle.com/datasets/adityadesai13/used-car-dataset-ford-and-mercedes>
 
 Repository
 =====================================
@@ -144,7 +144,7 @@ Row
 -------------------------------------
 ###GitHub Repository  
 
- https://github.com/yourusername/bmw-dashboard(改)  
+https://github.com/yezifan911-hash/bmw-dashboard  
 #Why this project matters  
 This project matters because used-car buyers often need simple tools to compare price patterns across many listings.  
 The dashboard makes those patterns easier to understand and supports more informed purchasing decisions.  
