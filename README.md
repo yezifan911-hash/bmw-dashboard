@@ -1,6 +1,7 @@
 # BMW Used Car Market Dashboard
 
 This project presents an interactive dashboard exploring the BMW used car market using a public Kaggle dataset.
+（Click on the "bmw-dashboard" link to view the visual analysis.）
 
 ## Contents
 - Interactive flexdashboard HTML
