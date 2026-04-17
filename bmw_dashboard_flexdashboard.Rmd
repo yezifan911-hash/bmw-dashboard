@@ -1,0 +1,150 @@
+---
+title: "BMW Used Car Market Dashboard"
+author: "Zifan Ye"
+date: "`r Sys.Date()`"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(plotly)
+library(DT)
+library(readr)
+library(dplyr)
+library(scales)
+library(htmltools)
+
+bmw <- read_csv("/Users/ye.fun/Desktop/QQQ/bmw.csv", show_col_types = FALSE)
+
+bmw_clean <- bmw %>%
+  rename(
+    fuel_type = fuelType,
+    engine_size = engineSize
+  ) %>%
+  mutate(
+    tooltip_scatter = paste0(
+      "Model: ", model,
+      "<br>Year: ", year,
+      "<br>Price: £", comma(price),
+      "<br>Mileage: ", comma(mileage), " miles",
+      "<br>Fuel type: ", fuel_type
+    ),
+    tooltip_box = paste0(
+      "Fuel type: ", fuel_type,
+      "<br>Price: £", comma(price),
+      "<br>Year: ", year,
+      "<br>Mileage: ", comma(mileage), " miles"
+    )
+  ) %>%
+  filter(!is.na(price), !is.na(mileage), !is.na(fuel_type))
+
+```
+Overview
+=====================================
+
+Row
+-------------------------------------
+BMW Resale Price vs Mileage  
+
+```{r cars}
+plot_ly(
+  data = bmw_clean,
+  x = ~mileage,
+  y = ~price,
+  type = "scatter",
+  mode = "markers",
+  color = ~fuel_type,
+  text = ~tooltip_scatter,
+  hoverinfo = "text",
+  marker = list(size = 7, opacity = 0.7)
+) %>%
+  layout(
+    title = list(text = "BMW Resale Price vs Mileage"),
+    xaxis = list(title = "Mileage (miles)"),
+    yaxis = list(title = "Resale Price (£)"),
+    legend = list(title = list(text = "Fuel Type"))
+  )
+```
+Row
+-------------------------------------
+The main pattern is easy to see: BMW resale prices generally decrease as mileage increases.  
+This chart also lets users compare fuel types and inspect individual cars through hover tooltips.  
+
+Row
+-------------------------------------
+##BMW Price Distribution by Fuel Type  
+```{r}
+plot_ly(
+  data = bmw_clean,
+  x = ~fuel_type,
+  y = ~price,
+  type = "box",
+  color = ~fuel_type,
+  text = ~tooltip_box,
+  hoverinfo = "text",
+  boxpoints = "all",
+  jitter = 0.25,
+  pointpos = 0
+) %>%
+  layout(
+    title = list(text = "BMW Price Distribution by Fuel Type"),
+    xaxis = list(title = "Fuel Type"),
+    yaxis = list(title = "Resale Price (£)"),
+    showlegend = FALSE
+  )
+```
+Row
+-------------------------------------
+This chart shows how price varies across fuel types, including differences in spread and outliers.  
+It helps users move from the overall trend to a more detailed group comparison.
+
+Row
+-------------------------------------
+##Explore the BMW ListingsRow  
+```{r}
+datatable(
+  bmw_clean %>%
+    select(model, year, price, mileage, fuel_type, transmission, mpg, engine_size),
+  rownames = FALSE,
+  filter = "top",
+  options = list(
+    pageLength = 8,
+    autoWidth = TRUE,
+    scrollX = TRUE
+  ),
+  colnames = c(
+    "Model",
+    "Year",
+    "Price (£)",
+    "Mileage (miles)",
+    "Fuel Type",
+    "Transmission",
+    "MPG",
+    "Engine Size (L)"
+  )
+)
+```
+Dataset Description
+=====================================
+Row
+-------------------------------------
+The dataset comes from the Kaggle dataset Used Car Dataset: Ford and Mercedes, which includes a BMW file (bmw.csv).  
+This dashboard uses the BMW subset only, with each row representing one used BMW listing.  
+The data were collected from used-car listings and compiled into a structured CSV dataset for analysis.  
+The study population is BMW vehicles in the used car market, and the sample size is the number of rows in bmw.csv.  
+Source: https://www.kaggle.com/datasets/adityadesai13/used-car-dataset-ford-and-mercedes
+
+Repository
+=====================================
+Row
+-------------------------------------
+###GitHub Repository  
+
+ https://github.com/yourusername/bmw-dashboard(改)  
+#Why this project matters  
+This project matters because used-car buyers often need simple tools to compare price patterns across many listings.  
+The dashboard makes those patterns easier to understand and supports more informed purchasing decisions.  
