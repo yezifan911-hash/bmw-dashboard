@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
-    vertical_layout: fill
+    vertical_layout: scroll
     theme: cosmo
 ---
 
@@ -46,11 +46,12 @@ bmw_clean <- bmw %>%
 Overview
 =====================================
 
-Row
+Row {data-height=650}
 -------------------------------------
-BMW Resale Price vs Mileage  
 
-```{r cars}
+### BMW Resale Price vs Mileage
+
+```{r cars, echo=FALSE}
 plot_ly(
   data = bmw_clean,
   x = ~mileage,
@@ -66,18 +67,23 @@ plot_ly(
     title = list(text = "BMW Resale Price vs Mileage"),
     xaxis = list(title = "Mileage (miles)"),
     yaxis = list(title = "Resale Price (£)"),
-    legend = list(title = list(text = "Fuel Type"))
+    legend = list(title = list(text = "Fuel Type")),
+    height = 450,
+    margin = list(b = 0)
   )
 ```
-Row
--------------------------------------
-The main pattern is easy to see: BMW resale prices generally decrease as mileage increases.  
-This chart also lets users compare fuel types and inspect individual cars through hover tooltips.  
 
-Row
+### Take away 1  
+
+BMW resale prices generally decrease as mileage increases, showing a clear negative relationship between vehicle use and resale value.
+The highest-priced vehicles are concentrated at lower mileage levels, while lower-priced cars become much more common as mileage rises.
+The hover tooltips also help users inspect specific listings in greater detail.
+
+Row {data-height=650}
 -------------------------------------
-##BMW Price Distribution by Fuel Type  
-```{r}
+### BMW Price Distribution by Fuel Type
+
+```{r boxplot, echo=FALSE}
 plot_ly(
   data = bmw_clean,
   x = ~fuel_type,
@@ -94,17 +100,22 @@ plot_ly(
     title = list(text = "BMW Price Distribution by Fuel Type"),
     xaxis = list(title = "Fuel Type"),
     yaxis = list(title = "Resale Price (£)"),
-    showlegend = FALSE
+    showlegend = FALSE,
+    height = 450,
+    margin = list(b = 0)
   )
 ```
-Row
--------------------------------------
-This chart shows how price varies across fuel types, including differences in spread and outliers.  
-It helps users move from the overall trend to a more detailed group comparison.
+
+### Take away 2 
+
+The boxplot shows that resale price distributions differ by fuel type, both in median price and in overall variability.  
+Some fuel categories have narrower interquartile ranges, while others have wider spreads and more visible outliers, suggesting more variation within those groups.  
+The plotted individual points help users connect the summary boxes to the listing-level prices shown in the data.  
 
 Row
 -------------------------------------
-##Explore the BMW ListingsRow  
+### Explore the BMW ListingsRow  
+
 ```{r}
 datatable(
   bmw_clean %>%
@@ -133,18 +144,19 @@ Dataset Description
 Row
 -------------------------------------
 The dataset comes from the Kaggle dataset *100,000 UK Used Car Data set*, and this dashboard analyzes the BMW subset (`bmw.csv`).  
+The study population is used BMW vehicles listed in the UK market, and the sample size is the number of records in `bmw.csv`.
 Each observation represents one used BMW listing, with variables such as model, year, price, mileage, fuel type, transmission, MPG, and engine size.  
-The data were collected from UK used-car listings and organized into a structured CSV file for analysis.  
-The study population is used BMW vehicles listed in the UK market, and the sample size is the number of records in `bmw.csv`.  
+The data were collected from UK used-car listings around the year 2020 and organized into a structured CSV file for analysis.   
 Source: <https://www.kaggle.com/datasets/adityadesai13/used-car-dataset-ford-and-mercedes>
 
 Repository
 =====================================
 Row
 -------------------------------------
-###GitHub Repository  
+### GitHub Repository  
 
-https://github.com/yezifan911-hash/bmw-dashboard  
-#Why this project matters  
+https://github.com/yezifan911-hash/bmw-dashboard 
+
+### Why this project matters  
 This project matters because used-car buyers often need simple tools to compare price patterns across many listings.  
 The dashboard makes those patterns easier to understand and supports more informed purchasing decisions.  
